@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <link rel="website icon" type="png" href="img/4660619.png">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .form-control:invalid {
+            border-color: #dc3545;
+        }
+        .form-control:valid {
+            border-color: #28a745;
+        }
+        .invalid-feedback {
+            display: none;
+        }
+        .is-invalid .invalid-feedback {
+            display: block;
+        }
+        .total-price {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">Order Form</h1>
+        <form id="orderForm">
+            <div class="form-group">
+                <div id="datetime"></div><br><br>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                    <div class="invalid-feedback">Please enter a valid name.</div>
+                </div>
+            <div class="form-group">
+                <label for="address">Delivery Address</label>
+                <input type="text" id="address" name="address" class="form-control" required>
+                <div class="invalid-feedback">Please enter a delivery address.</div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required pattern="^\00962[0-9]{7,9}$" placeholder="009627XXXXXXXX">
+                <div class="invalid-feedback">Please enter a valid phone number starting with +962 followed by 7 to 9 digits.</div>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <select id="city" name="city" class="form-control" required>
+                    <option value="">Select a city</option>
+                    <option value="Amman">Amman</option>
+                    <option value="Irbid">Irbid</option>
+                    <option value="Zarqa">Zarqa</option>
+                    <option value="Karak">Karak</option>
+                </select>
+                <div class="invalid-feedback">Please select a city.</div>
+            </div>
+            <div id="cartItems" class="mt-4"></div>
+            <div class="total-price" id="totalPrice">
+                Total Price: $0
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-4">Submit Order</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            emailjs.init('T-Y30ULyMIRi7nzRg'); // Initialize EmailJS with your public key
+        
+            const form = document.getElementById('orderForm');
+            const totalPriceElement = document.getElementById('totalPrice');
+            const cartItemsElement = document.getElementById('cartItems');
+        
+            // Function to retrieve cart items from localStorage
+            function getCartItems() {
+                const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+                console.log("Retrieved cart items:", cart); // Output the retrieved items
+                return cart;
+            }
+        
+            // Function to get city adjustment
+            function getCityAdjustment(city) {
+                switch (city) {
+                    case 'Amman':
+                        return 2;
+                    case 'Irbid':
+                        return 4;
+                    case 'Zarqa':
+                        return 3;
+                    case 'Karak':
+                        return 5;
+                    default:
+                        return 0;
+                }
+            }
+        
+            // Function to display cart items
+            function displayCartItems(cart) {
+    cartItemsElement.innerHTML = ''; // تفريغ السلة قبل إعادة عرض العناصر
+
+    if (cart.length === 0) {
+        cartItemsElement.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+        cart.forEach(item => {
+            // عرض كل عنصر في السلة مع اسمه، سعره، وكمية الوحدات
+            const itemHTML = `<li>${item.name} - ${item.price} JD </li>`;
+            cartItemsElement.innerHTML += itemHTML;
+        });
+    }
+
+    // حساب المجموع الكلي
+    let totalCost = cart.reduce((sum, item) => sum + (item.price+ getCityAdjustment(city)), 0);
+    console.log("Total Cost:", totalCost); // طباعة المجموع الكلي لتفقده
+    return totalCost;
+}
+        
+            // Function to update the total price based on city
+            function updateTotalPrice(cartTotal) {
+                const city = form.city.value;
+                const cityAdjustment = getCityAdjustment(city);
+                const totalCost = cartTotal + cityAdjustment;
+                totalPriceElement.textContent = `Total Price: ${totalCost} JD`;
+                return totalCost;
+            }
+        
+            // Initial load of cart items and total price
+            const cart = getCartItems();
+            const cartTotal = displayCartItems(cart);
+            updateTotalPrice(cartTotal);
+        
+            // Update total price when city changes
+            form.city.addEventListener('change', function() {
+                const cartTotal = displayCartItems(getCartItems());
+                updateTotalPrice(cartTotal);
+            });
+        
+            // Handle form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                // Validate form fields
+                if (!form.checkValidity()) {
+                    alert('Please fill out all required fields.');
+                    return;
+                }
+        
+                const name = form.name.value;
+                const address = form.address.value;
+                const phone = form.phone.value;
+                const city = form.city.value;
+        
+                // Retrieve cart items and calculate total
+                const cartItems = getCartItems(); // Ensure we retrieve cart items here
+                const cartTotal = displayCartItems(cartItems);
+                const totalCost = updateTotalPrice(cartTotal);
+        
+                const templateParams = {
+                    name: name,
+                    address: address,
+                    phone: phone,
+                    city: city,
+                    totalCost: totalCost, // Include total cost
+                    cartItems: cartItems.map(item => `${item.name} - ${item.price} JD (x${item.quantity})`).join(', ')
+                };
+        
+                // Send email using EmailJS
+                Email.send({
+    SecureToken : "3b36e839-d3ed-4f3a-8cea-814739fb12a6",
+    To : 'ahmadalshaksherahmad857@gmail.com',
+    From : "ahmadalshaksherahmad857@gmail.com",
+    Subject : "Testing email",
+    Body : "test that"
+    }).then(
+     message => alert(message)
+);
+            });
+        });
+        
+        // Function to update the current date and time
+        function updateDateTime() {
+            var dateTimeElement = document.getElementById("datetime");
+            var now = new Date();
+            var dateTimeString = "Current Date and Time: " + now.toLocaleDateString() + " " + now.toLocaleTimeString();
+            dateTimeElement.textContent = dateTimeString;
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+        </script>
+        
+        
+
+</body>
+</html>
