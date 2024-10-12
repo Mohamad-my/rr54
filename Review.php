@@ -214,6 +214,6 @@ $result = $conn->query($sql);
             </div>
         <?php endwhile; ?>
     </div>
-
+<script src="je.js"></script>
 </body>
 </html>
