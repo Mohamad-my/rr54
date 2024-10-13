@@ -24,12 +24,12 @@ else{
     <style>
         .navbar {
             background-color: #333;
-            padding: 15px;
+            padding: 15px !important;
         }
 
         .navbar-brand {
             color: #fff;
-            font-size: 28px;
+            font-size: 28px !important;
             font-weight: bold;
         }
 
@@ -42,6 +42,7 @@ else{
         .navbar-nav .nav-link:hover {
             color:gray;
         }
+
         .cart ul{
            list-style-type: none;
            margin: 0;
@@ -282,6 +283,34 @@ input[type="number"] {
 .close:hover {
     color: #333;
 }
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px;
+    }
+    .product {
+        width: 100%; /* جعل المنتج يشغل كامل العرض */
+        margin: 5px 0; /* تقليل الهوامش */
+    }
+    .cart-modal {
+        width: 90%; /* جعل نافذة السلة تأخذ 90% من العرض */
+        right: 5%; /* تحريك النافذة نحو اليمين */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 22px; /* تقليل حجم خط العلامة التجارية */
+    }
+    .navbar-nav .nav-link {
+        font-size: 16px; /* تقليل حجم خط الروابط */
+    }
+    .product-price a {
+        font-size: 16px; /* تقليل حجم خط السعر */
+    }
+    .cart-summary button {
+        font-size: 1rem; /* تعديل حجم زر التأكيد */
+    }
+}
 
     /* end product */
     </style>
@@ -292,35 +321,34 @@ input[type="number"] {
 <body>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(43, 42, 42);">
+    <div class="container">
         <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
-    <span>Medical Devices</span>
-    <img src="img/34.png" alt="Logo" width="90" height="40" style="margin-left: 10px;">
-</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost/Task/index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                       <a class="nav-link" href="#index"> product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost/Task/About_us.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost/Task/Review.php">Review</a>
-                    </li>
-                </ul>
-            </div>
+            <span>Medical Devices</span>
+            <img src="img/34.png" alt="Logo" width="90" height="40" style="margin-left: 10px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto"> <!-- ms-auto لنقل القائمة إلى اليمين -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About_us.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Review.php">Review</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
      <!---------- cart start------------>
      <div class="last-post">
      <div class="cart">

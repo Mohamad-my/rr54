@@ -35,6 +35,10 @@ $result = $conn->query($sql);
     <link rel="website icon" type="png"  href="img/4660619.png">
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1EMFlnCdhS3NB1I" crossorigin="anonymous">
+
+
+
     <style>
         body {
             background-color: #f5f5f5;
@@ -43,24 +47,31 @@ $result = $conn->query($sql);
         }
 
         .navbar {
-            background-color:  #343a40;
-            padding: 15px;
-        }
+    background-color: #333 !important; /* ضمان تطبيق اللون */
+    padding: 15px;
+}
 
-        .navbar .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-        }
+.navbar-nav {
+    color:#fff;
+    font-size: 28px !important;
+    margin-left: auto;
+    margin-right: 0;
+}
 
-        .navbar .navbar-nav .nav-link {
-            color: #fff;
-            margin-right: 20px;
-        }
 
-        .navbar .navbar-nav .nav-link:hover {
-            color: #f1f1f1;
-        }
+.navbar-nav .nav-link {
+    color: #fff !important; /* ضمان تطبيق اللون الأبيض */
+    margin-right: 20px;
+    font-size: 18px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: gray !important; /* تغيير اللون عند التمرير */
+}
+
+
+
+
 
         .form-group label {
             font-size: 18px;
@@ -154,25 +165,38 @@ $result = $conn->query($sql);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Medical Devices</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(43, 42, 42);">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+            <span>Medical Devices</span>
+            <img src="img/34.png" alt="Logo" width="90" height="40" style="margin-left: 10px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto"> <!-- ms-auto لنقل القائمة إلى اليمين -->
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Task/index.html">Home</a>
+                    <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Task/index.php">Products</a>
+                    <a class="nav-link" href="index.php">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/Task/About_us.html">About Us</a>
+                    <a class="nav-link" href="About_us.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Review</a>
+                    <a class="nav-link" href="Review.php">Review</a>
                 </li>
             </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
+
+
+
+
 
     <!-- Review Form -->
     <div class="container mt-5">
